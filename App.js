@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard, Button, Alert} from 'react-native';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
@@ -40,6 +40,24 @@ export default class App extends Component<Props> {
       });
   };
 
+  didTouchLoginButton = () => {
+    if (this.state.loginName.trim() === '' || this.state.loginPassword.trim() === '') {
+      Alert.alert("You have to put login and password");
+      return;
+    }
+    if (this.state.loginName.trim() === "Luzejunior" && this.state.loginPassword === "123") {
+      Alert.alert("All correct");
+    } else {
+      Alert.alert("Login and Password incorrect");
+    }
+    this.setState(() => {
+      return {
+        loginName: '',
+        loginPassword: ''
+      };
+    });
+  };
+
   render() {
     return (
       <View style = {styles.container}>
@@ -63,6 +81,11 @@ export default class App extends Component<Props> {
             onChangeText = {this.passwordOnChangeText}
             secureTextEntry = {true}
             />
+
+            <Button
+            title = "Login"
+            onPress = {this.didTouchLoginButton}
+            />
           </View>
         </DismissKeyboard>
       </View>
@@ -73,18 +96,17 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#1162bc',
   },
   loginView: {
-    flex: 2,
+    width: "90%",
+    height: "25%",
     marginTop: 200,
-    marginBottom: 330,
-    width: 300,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffffbc',
+    backgroundColor: '#ffffff25',
     borderRadius: 15,
   },
   welcome: {
@@ -94,16 +116,16 @@ const styles = StyleSheet.create({
   },
   instructions: {
     textAlign: 'center',
-    color: '#333333',
+    color: '#ffffff',
     marginTop: 10,
     marginBottom: 10,
   },
   textField: {
-    width: 250,
-    height: 25,
+    width: "80%",
+    height: "15%",
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff50",
     borderRadius: 3,
     borderColor: 'gray',
     borderWidth: 0.5,
