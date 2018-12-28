@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard, Button, Alert, TouchableOpacity } from 'react-native';
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
@@ -15,39 +15,17 @@ const labels = {
 type Props = {};
 export default class LoginView extends Component<Props> {
 
-  state = {
-    loginName: '',
-    loginPassword: ''
-  };
-
-  loginOnChangeText = val => {
-    this.setState({
-      loginName: val
-      });
-  };
-
-  passwordOnChangeText = val => {
-    this.setState({
-      loginPassword: val
-      });
-  };
-
   didTouchLoginButton = () => {
-    if (this.state.loginName.trim() === '' || this.state.loginPassword.trim() === '') {
-      Alert.alert("You have to put login and password");
+    if (this.props.login.trim() === '' || this.props.password.trim() === '') {
+      Alert.alert("You have to enter your login information");
       return;
     }
-    if (this.state.loginName.trim() === "Luzejunior" && this.state.loginPassword === "123") {
+    if (this.props.login === "Luzejunior" && this.props.password === "123") {
       Alert.alert("All correct");
     } else {
       Alert.alert("Login and Password incorrect");
     }
-    this.setState(() => {
-      return {
-        loginName: '',
-        loginPassword: ''
-      };
-    });
+    this.props.dismissText();
   };
 
   render() {
@@ -59,25 +37,22 @@ export default class LoginView extends Component<Props> {
           <TextInput
           style = {styles.textField}
           placeholder = "Enter your email"
-          value = {this.state.loginName}
-          onChangeText = {this.loginOnChangeText}
-          keyboardType = "email-address"
+          value = {this.props.login}
+          onChangeText = {this.props.loginChanged}
           />
 
           <Text style = {styles.instructions}>{labels.passwordLabel}</Text>
           <TextInput
           style = {styles.textField}
           placeholder = "Enter your password"
-          value = {this.state.loginPassword}
-          onChangeText = {this.passwordOnChangeText}
+          value = {this.props.password}
+          onChangeText = {this.props.passwordChanged}
           secureTextEntry = {true}
           />
 
-          <Button
-          title = "Login"
-          style = {color = 'red'}
-          onPress = {this.didTouchLoginButton}
-          />
+          <TouchableOpacity style = {styles.buttonView} onPress = {this.didTouchLoginButton}>
+              <Text style = {styles.buttonTitle}>LOGIN</Text>
+          </TouchableOpacity>
         </View>
       </DismissKeyboard>
     );
@@ -93,7 +68,7 @@ const styles = StyleSheet.create({
   },
   textField: {
     width: "80%",
-    height: "15%",
+    height: "13%",
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: "#ffffff50",
@@ -103,11 +78,24 @@ const styles = StyleSheet.create({
   },
   loginView: {
     width: "90%",
-    height: "25%",
-    marginTop: 200,
+    height: "30%",
+    marginTop: 400,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff25',
     borderRadius: 15,
+  },
+  buttonView: {
+    width: "80%",
+    height: "13%",
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: "#ffffff70"
+  },
+  buttonTitle: {
+    color: "white",
+    fontWeight: 'bold'
   }
 });
