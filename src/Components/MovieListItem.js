@@ -5,7 +5,7 @@ const MovieListItem = props => (
   <TouchableOpacity>
     <View style = {styles.listItem}>
       <Image
-        source = {{uri: 'https://facebook.github.io/react/logo-og.png'}}
+        source = {{uri: props.moviePoster}}
         style = {styles.image}
       />
       <View style = {styles.textView}>

@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import LoginView from './src/Components/LoginView';
 import MainScreen from './src/Components/MainScreen';
-import Store from './src/Models/Store';
+import Store from './src/Redux/Store';
 import { Provider } from 'react-redux';
 
 type Props = {};

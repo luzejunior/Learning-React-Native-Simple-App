@@ -5,10 +5,16 @@ import {
   TextInput,
   StyleSheet
 } from 'react-native';
-
 import MovieList from './MovieList'
+import { fetchMovies } from '../Redux/Actions/MoviesActions';
+import { connect } from 'react-redux';
 
 class MainScreen extends Component {
+
+  componentDidMount() {
+    this.props.fetchMovies();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -17,13 +23,14 @@ class MainScreen extends Component {
         style = {styles.searchBar}
         placeholder = 'Search for movie'
         />
-        <MovieList isFetching = {true}/>
+        <MovieList
+        isFetching = {this.props.data.isFetching}
+        data = {this.props.data.movies}
+        />
       </View>
     );
   }
 }
-
-export default MainScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -50,3 +57,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)'
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    data: state
+  }
+};
+
+export default connect(mapStateToProps, { fetchMovies })(MainScreen);
