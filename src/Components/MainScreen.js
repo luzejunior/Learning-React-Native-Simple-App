@@ -17,7 +17,7 @@ class MainScreen extends Component {
         style = {styles.searchBar}
         placeholder = 'Search for movie'
         />
-        <MovieList/>
+        <MovieList isFetching = {true}/>
       </View>
     );
   }

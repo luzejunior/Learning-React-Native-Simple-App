@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
 import MovieListItem from './MovieListItem'
 
 let moviesData = [
@@ -8,8 +8,12 @@ let moviesData = [
   {title:"Johnny English", genre:"Comedy", releaseDate:"2018-10-13"}
 ];
 
-const MovieList = () => {
-  return (
+const MovieList = (props) => {
+  let content = props.isFetching ? (
+    <View style={styles.activityIndicatorView}>
+      <ActivityIndicator size="small" />
+    </View>
+  ) : (
     <FlatList
       data = {moviesData}
       renderItem = {(movieInfo) => (
@@ -22,6 +26,15 @@ const MovieList = () => {
       keyExtractor = {(item, index) => index.toString()}
     />
   );
+  return (content);
 };
+
+const styles = StyleSheet.create({
+  activityIndicatorView: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 100
+  }
+});
 
 export default MovieList;
