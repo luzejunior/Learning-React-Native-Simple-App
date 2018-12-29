@@ -26,7 +26,7 @@ const MovieList = (props) => {
         />
       )}
       keyExtractor = {(item, index) => index.toString()}
-      onEndReachedThreshold={0.05}
+      onEndReachedThreshold={0.1}
       onEndReached={({ distanceFromEnd }) => {
           props.fetchMoreData()
       }}

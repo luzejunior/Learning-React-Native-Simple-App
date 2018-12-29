@@ -7,21 +7,43 @@ import {
   Alert
 } from 'react-native';
 import MovieList from './MovieList'
-import { fetchMovies, startLoading } from '../Redux/Actions/MoviesActions';
+import { fetchMovies, startLoading, filterMovieName } from '../Redux/Actions/MoviesActions';
 import { connect } from 'react-redux';
 
 class MainScreen extends Component {
 
+  state = {
+    canRefreshData: true
+  };
+
   componentDidMount() {
     this.props.startLoading()
     this.fetchData();
-  }
+  };
 
   fetchData = () => {
-    let requestPage = this.props.data.page + 1;
-    //alert(requestPage);
-    if (this.props.data.numberOfPages >= requestPage) {
-      this.props.fetchMovies(requestPage);
+    if (this.state.canRefreshData === true) {
+      let requestPage = this.props.data.page + 1;
+      //alert(requestPage);
+      if (this.props.data.numberOfPages >= requestPage) {
+        this.props.fetchMovies(requestPage);
+      }
+    }
+  };
+
+  changeInputTextHandler = (text) => {
+    if (text === "") {
+      this.setState(prevState => ({
+        canRefreshData: true
+      }), () => {
+        this.props.filterMovieName(text);
+      });
+    } else {
+      this.setState(prevState => ({
+        canRefreshData: false
+      }), () => {
+        this.props.filterMovieName(text);
+      });
     }
   };
 
@@ -32,6 +54,7 @@ class MainScreen extends Component {
         <TextInput
           style = {styles.searchBar}
           placeholder = 'Search for movie'
+          onChangeText={this.changeInputTextHandler}
         />
         <MovieList
           isFetching = {this.props.data.isFetching}
@@ -75,4 +98,4 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, { fetchMovies, startLoading })(MainScreen);
+export default connect(mapStateToProps, { fetchMovies, startLoading, filterMovieName })(MainScreen);
