@@ -7,7 +7,7 @@ import {
 const initialState = {
   isFetching: false,
   page: 0,
-  numberOfPages: 0,
+  numberOfPages: 1,
   movies: [],
   error: null
 }
@@ -20,7 +20,7 @@ const moviesReducer = (state = initialState, action) => {
       };
     case FETCHING_MOVIES_SUCESS:
       return {
-        ...state, isFetching: false, movies: action.payload.results, page: action.payload.page, numberOfPages: action.payload.total_pages
+        ...state, isFetching: false, movies: state.movies.concat(action.payload.results), page: action.payload.page, numberOfPages: action.payload.total_pages
       };
     case FETCHING_MOVIES_FAILURE:
       return {

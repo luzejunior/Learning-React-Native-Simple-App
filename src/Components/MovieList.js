@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator, Alert } from 'react-native';
 import MovieListItem from './MovieListItem'
 
 // let moviesData = [
@@ -26,6 +26,10 @@ const MovieList = (props) => {
         />
       )}
       keyExtractor = {(item, index) => index.toString()}
+      onEndReachedThreshold={0.05}
+      onEndReached={({ distanceFromEnd }) => {
+          props.fetchMoreData()
+      }}
     />
   );
   return (content);
